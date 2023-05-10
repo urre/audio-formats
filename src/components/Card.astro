@@ -1,0 +1,84 @@
+---
+export interface Props {
+  logo?: string;
+  description?: string;
+  title?: string;
+  highres?: string;
+  sampleFrequency?: string;
+  heroImage?: string;
+  bitDepth?: string;
+  bitRate?: string;
+  compression?: string;
+  fileFormats?: string;
+  streaming?: Array<String>;
+  audiophileLevel?: string;
+  slug: string;
+}
+
+const {
+  logo,
+  description,
+  title,
+  highres,
+  sampleFrequency,
+  bitDepth,
+  bitRate,
+  compression,
+  fileFormats,
+  streaming,
+  audiophileLevel,
+  slug
+} = Astro.props;
+
+// console.log(Astro.props);
+---
+
+<div class="card">
+  <div class="card-inner">
+    <img src={logo} />
+    <h2>{title}</h2>
+
+    <p>
+      {description}
+    </p>
+    <dl>
+      <dt>High-res</dt>
+      <dd>{highres}</dd>
+
+      <dt>Sample frequency</dt>
+      <dd>{sampleFrequency}</dd>
+
+      <dt>Bit depth</dt>
+      <dd>{bitDepth}</dd>
+
+      <dt>Bit rate</dt>
+      <dd>{bitRate}</dd>
+
+      <dt>Compression</dt>
+      <dd>{compression}</dd>
+
+      <dt>File formats</dt>
+      <dd>{fileFormats}</dd>
+
+      <dt>Streaming</dt>
+      <dd>{streaming}</dd>
+
+      <dt>Audiophile level</dt>
+      <dd>{audiophileLevel}</dd>
+    </dl>
+
+    {
+      streaming && (
+        <div class="streaming">
+          {streaming?.map((stream) => (
+            <img
+              class={`streaming-icon streaming-icon-${stream}`}
+              src={`/icons/services/${stream?.toLowerCase()}.svg`}
+            />
+          ))}
+        </div>
+      )
+    }
+    <a href={`/${slug}`}>Read more</a>
+  </div>
+</div>

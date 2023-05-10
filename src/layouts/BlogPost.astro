@@ -1,51 +1,57 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
+import type { CollectionEntry } from "astro:content";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Card from "../components/Card.astro";
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<"formats">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const {
+  title,
+  description,
+  heroImage,
+  logo,
+  highres,
+  sampleFrequency,
+  bitDepth,
+  bitRate,
+  compression,
+  fileFormats,
+  streaming,
+  audiophileLevel
+} = Astro.props;
 ---
 
-<html lang="en">
-	<head>
-		<BaseHead title={title} description={description} />
-		<style>
-			.title {
-				font-size: 2em;
-				margin: 0.25em 0 0;
-			}
-			hr {
-				border-top: 1px solid #ddd;
-				margin: 1rem 0;
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
-	</head>
+<html lang="en" class="dark">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
 
-	<body>
-		<Header />
-		<main>
-			<article>
-				{heroImage && <img width={720} height={360} src={heroImage} alt="" />}
-				<h1 class="title">{title}</h1>
-				<FormattedDate date={pubDate} />
-				{
-					updatedDate && (
-						<div class="last-updated-on">
-							Last updated on <FormattedDate date={updatedDate} />
-						</div>
-					)
-				}
-				<hr />
-				<slot />
-			</article>
-		</main>
-		<Footer />
-	</body>
+  <body>
+    <Header />
+    <main>
+      <article>
+        <div class="container">
+          <Card
+            title={title}
+            description={description}
+            heroImage={heroImage}
+            logo={logo}
+            highres={highres}
+            sampleFrequency={sampleFrequency}
+            bitDepth={bitDepth}
+            bitRate={bitRate}
+            compression={compression}
+            fileFormats={fileFormats}
+            streaming={streaming}
+            audiophileLevel={audiophileLevel}
+          />
+        </div>
+
+        <slot />
+      </article>
+    </main>
+    <Footer />
+  </body>
 </html>
