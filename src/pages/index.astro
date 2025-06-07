@@ -1,17 +1,15 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-// import Header from "../components/Header.astro";
-
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import AudioTable from "../components/AudioTable";
 
-const posts = await getCollection('formats', ({ data }: { data: { draft?: boolean, pubDate: Date } }) => {
+const data = await getCollection('formats', ({ data }: { data: { draft?: boolean, pubDate: Date } }) => {
     return import.meta.env.PROD ? data.draft !== true : true
 })
 
-posts.sort((a: typeof posts[0], b: typeof posts[0]) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+data.sort((a: typeof data[0], b: typeof data[0]) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <!DOCTYPE html>
@@ -21,12 +19,7 @@ posts.sort((a: typeof posts[0], b: typeof posts[0]) => b.data.pubDate.valueOf() 
   </head>
 
   <body>
-    <!-- <Header title={SITE_TITLE} /> -->
-
-    <!-- <ResponsiveTable /> -->
-
-    <AudioTable posts={posts} client:load />
-
+    <AudioTable posts={data} client:load />
     <Footer />
   </body>
 </html>

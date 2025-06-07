@@ -108,7 +108,6 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
 
 
 
-  // Using the SortButton component defined at the top of the file
 
   const getCompressionStyle = (compression: string) => {
     switch (compression) {
