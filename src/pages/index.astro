@@ -1,14 +1,17 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
+// import Header from "../components/Header.astro";
+
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import Card from "../components/Card.astro";
+import AudioTable from "../components/AudioTable";
 
-const posts = (await getCollection("formats")).sort((a, b) =>
-  a.data.title.localeCompare(b.data.title)
-);
+const posts = await getCollection('formats', ({ data }: { data: { draft?: boolean, pubDate: Date } }) => {
+    return import.meta.env.PROD ? data.draft !== true : true
+})
+
+posts.sort((a: typeof posts[0], b: typeof posts[0]) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <!DOCTYPE html>
@@ -16,31 +19,14 @@ const posts = (await getCollection("formats")).sort((a, b) =>
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
+
   <body>
-    <Header title={SITE_TITLE} />
-    <main>
-      <div class="container">
-        {
-          posts.map((post) => (
-            <Card
-              title={post.data.title}
-              description={post.data.description}
-              heroImage={post.data.heroImage}
-              logo={post.data.logo}
-              highres={post.data.highres}
-              sampleFrequency={post.data.sampleFrequency}
-              bitDepth={post.data.bitDepth}
-              bitRate={post.data.bitRate}
-              compression={post.data.compression}
-              fileFormats={post.data.fileFormats}
-              streaming={post.data.streaming}
-              audiophileLevel={post.data.audiophileLevel}
-              slug={post.slug}
-            />
-          ))
-        }
-      </div>
-    </main>
+    <!-- <Header title={SITE_TITLE} /> -->
+
+    <!-- <ResponsiveTable /> -->
+
+    <AudioTable posts={posts} client:load />
+
     <Footer />
   </body>
 </html>

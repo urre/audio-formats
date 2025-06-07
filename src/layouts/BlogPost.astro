@@ -3,8 +3,6 @@ import type { CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import Card from "../components/Card.astro";
-
 type Props = CollectionEntry<"formats">["data"];
 
 const {
@@ -32,23 +30,9 @@ const {
     <Header />
     <main>
       <article>
-        <div class="container">
-          <Card
-            title={title}
-            description={description}
-            heroImage={heroImage}
-            logo={logo}
-            highres={highres}
-            sampleFrequency={sampleFrequency}
-            bitDepth={bitDepth}
-            bitRate={bitRate}
-            compression={compression}
-            fileFormats={fileFormats}
-            streaming={streaming}
-            audiophileLevel={audiophileLevel}
-          />
-        </div>
-
+        <h1>
+          {title}
+        </h1>
         <slot />
       </article>
     </main>
