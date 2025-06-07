@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState } from "react";
 
 interface AudioFormatData {
   title: string;
@@ -8,7 +8,7 @@ interface AudioFormatData {
   sampleFrequency: string;
   bitDepth: string;
   bitRate: string;
-  compression: 'Lossless' | 'Lossy' | string;
+  compression: "Lossless" | "Lossy" | string;
   streaming?: string[];
   fileFormats: string[];
   audiophileLevel: string;
@@ -22,8 +22,14 @@ interface AudioTableProps {
   posts: AudioFormatPost[];
 }
 
-type SortField = 'title' | 'sampleFrequency' | 'bitDepth' | 'bitRate' | 'compression' | 'audiophileLevel';
-type SortOrder = 'asc' | 'desc';
+type SortField =
+  | "title"
+  | "sampleFrequency"
+  | "bitDepth"
+  | "bitRate"
+  | "compression"
+  | "audiophileLevel";
+type SortOrder = "asc" | "desc";
 
 const SortButton: React.FC<{
   field: SortField;
@@ -37,77 +43,75 @@ const SortButton: React.FC<{
     className="flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded transition-colors"
   >
     {children}
-    {sortField === field && (
-      sortOrder === 'asc' ? <> ↑</> : <>↓</>
-    )}
+    {sortField === field && (sortOrder === "asc" ? <> ↑</> : <>↓</>)}
   </button>
 );
 
 const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
-  const [sortField, setSortField] = useState<SortField>('title');
-  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+  const [sortField, setSortField] = useState<SortField>("title");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortOrder('asc');
+      setSortOrder("asc");
     }
   };
 
-
   const sortedPosts = useMemo(() => {
     return [...posts].sort((a, b) => {
-      let aValue: string | number = '';
-      let bValue: string | number = '';
+      let aValue: string | number = "";
+      let bValue: string | number = "";
 
       switch (sortField) {
-        case 'title':
+        case "title":
           aValue = a.data.title.toLowerCase();
           bValue = b.data.title.toLowerCase();
           break;
-        case 'sampleFrequency':
+        case "sampleFrequency":
           // Extract numeric value for sorting (e.g., "192 kHz" -> 192)
-          aValue = parseFloat(a.data.sampleFrequency.match(/[\d.]+/)?.[0] || '0');
-          bValue = parseFloat(b.data.sampleFrequency.match(/[\d.]+/)?.[0] || '0');
+          aValue = parseFloat(
+            a.data.sampleFrequency.match(/[\d.]+/)?.[0] || "0"
+          );
+          bValue = parseFloat(
+            b.data.sampleFrequency.match(/[\d.]+/)?.[0] || "0"
+          );
           break;
-        case 'bitDepth':
-          aValue = parseFloat(a.data.bitDepth.match(/[\d.]+/)?.[0] || '0');
-          bValue = parseFloat(b.data.bitDepth.match(/[\d.]+/)?.[0] || '0');
+        case "bitDepth":
+          aValue = parseFloat(a.data.bitDepth.match(/[\d.]+/)?.[0] || "0");
+          bValue = parseFloat(b.data.bitDepth.match(/[\d.]+/)?.[0] || "0");
           break;
-        case 'bitRate':
-          aValue = parseFloat(a.data.bitRate.match(/[\d.]+/)?.[0] || '0');
-          bValue = parseFloat(b.data.bitRate.match(/[\d.]+/)?.[0] || '0');
+        case "bitRate":
+          aValue = parseFloat(a.data.bitRate.match(/[\d.]+/)?.[0] || "0");
+          bValue = parseFloat(b.data.bitRate.match(/[\d.]+/)?.[0] || "0");
           break;
-        case 'compression':
+        case "compression":
           aValue = a.data.compression.toLowerCase();
           bValue = b.data.compression.toLowerCase();
           break;
-        case 'audiophileLevel':
+        case "audiophileLevel":
           // Count emoji characters for sorting
           aValue = (a.data.audiophileLevel.match(/🎵/g) || []).length;
           bValue = (b.data.audiophileLevel.match(/🎵/g) || []).length;
           break;
         default:
-          aValue = '';
-          bValue = '';
+          aValue = "";
+          bValue = "";
       }
 
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return sortOrder === 'asc'
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortOrder === "asc"
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       } else {
-        return sortOrder === 'asc'
+        return sortOrder === "asc"
           ? (aValue as number) - (bValue as number)
           : (bValue as number) - (aValue as number);
       }
     });
   }, [posts, sortField, sortOrder]);
-
-
-
 
   const getCompressionStyle = (compression: string) => {
     switch (compression) {
@@ -125,40 +129,80 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[1400px]">
-    <thead className="bg-gray-50 sticky top-0 z-10">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
-                <th className="px-4 py-4 text-left w-36 min-w-[4rem] whitespace-nowrap">Logo</th>
-                <th className="px-4 py-4 text-left">
-                  <SortButton field="title" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                <th className="px-4 py-4 text-left w-36 min-w-[4rem] whitespace-nowrap">
+                  Logo
+                </th>
+                <th className="px-4 py-4 text-left whitespace-nowrap">
+                  <SortButton
+                    field="title"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Name
                   </SortButton>
                 </th>
-                <th className="px-4 py-4 text-left w-64 min-w-[16rem] whitespace-nowrap">Description</th>
-                <th className="px-4 py-4 text-center whitespace-nowrap">High-res</th>
+                <th className="px-4 py-4 text-left w-64 min-w-[16rem] whitespace-nowrap">
+                  Description
+                </th>
+                <th className="px-4 py-4 text-center whitespace-nowrap">
+                  High-res
+                </th>
                 <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton field="sampleFrequency" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                  <SortButton
+                    field="sampleFrequency"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Sample frequency
                   </SortButton>
                 </th>
                 <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton field="bitDepth" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                  <SortButton
+                    field="bitDepth"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Bit depth
                   </SortButton>
                 </th>
                 <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton field="bitRate" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                  <SortButton
+                    field="bitRate"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Bit rate
                   </SortButton>
                 </th>
                 <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton field="compression" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                  <SortButton
+                    field="compression"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Compression
                   </SortButton>
                 </th>
-                <th className="px-4 py-4 text-center whitespace-nowrap">Streaming</th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">File formats</th>
                 <th className="px-4 py-4 text-center whitespace-nowrap">
-                  <SortButton field="audiophileLevel" sortField={sortField} sortOrder={sortOrder} onSort={handleSort}>
+                  Streaming
+                </th>
+                <th className="px-4 py-4 text-left whitespace-nowrap">
+                  File formats
+                </th>
+                <th className="px-4 py-4 text-center whitespace-nowrap">
+                  <SortButton
+                    field="audiophileLevel"
+                    sortField={sortField}
+                    sortOrder={sortOrder}
+                    onSort={handleSort}
+                  >
                     Audiophile level
                   </SortButton>
                 </th>
@@ -172,16 +216,18 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                     <img
                       src={post.data.logo || "/placeholder.svg"}
                       alt={`${post.data.title} logo`}
+                      title={`${post.data.title} logo`}
                       className="rounded object-contain invert h-24"
+                      loading="lazy"
                     />
                   </td>
                   <td className="px-4 py-4">
-                    <div className="font-medium text-gray-900">{post.data.title}</div>
+                    <div className="font-medium text-gray-900">
+                      {post.data.title}
+                    </div>
                   </td>
                   <td className="px-4 py-4 w-24">
-                    <div className="text-gray-600">
-                      {post.data.description}
-                    </div>
+                    <div className="text-gray-600">{post.data.description}</div>
                   </td>
                   <td className="px-4 py-4 w-12 text-center">
                     {post.data.highres && (
@@ -190,6 +236,7 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                         src="/icons/technologies/highres.svg"
                         alt="High-Res Audio"
                         title="High-Res Audio"
+                        loading="lazy"
                       />
                     )}
                   </td>
@@ -199,14 +246,20 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                     </div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="text-gray-900 text-sm">{post.data.bitDepth}</div>
+                    <div className="text-gray-900 text-sm">
+                      {post.data.bitDepth}
+                    </div>
                   </td>
                   <td className="px-4 py-4">
-                    <div className="text-gray-900 text-sm">{post.data.bitRate}</div>
+                    <div className="text-gray-900 text-sm">
+                      {post.data.bitRate}
+                    </div>
                   </td>
                   <td className="px-4 py-4">
                     <span
-                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCompressionStyle(post.data.compression)}`}
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCompressionStyle(
+                        post.data.compression
+                      )}`}
                     >
                       {post.data.compression}
                     </span>
@@ -221,6 +274,7 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                             src={`/icons/services/${stream.toLowerCase()}.svg`}
                             alt={`${stream} icon`}
                             title={`Streaming on ${stream}`}
+                            loading="lazy"
                           />
                         ))}
                       </div>
@@ -230,8 +284,7 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                   </td>
                   <td className="px-4 py-4">
                     <div className="flex flex-wrap gap-1">
-
-                       {post.data.fileFormats.map((ext, extIndex) => (
+                      {post.data.fileFormats.map((ext, extIndex) => (
                         <span
                           key={extIndex}
                           className="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs font-mono"
