@@ -217,9 +217,9 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                         {post.data.streaming.map((stream, streamIndex) => (
                           <img
                             key={streamIndex}
-                            className="object-contain h-8 w-8"
+                            className="object-contain h-8 w-8 invert"
                             src={`/icons/services/${stream.toLowerCase()}.svg`}
-                            alt={stream}
+                            alt={`${stream} icon`}
                             title={`Streaming on ${stream}`}
                           />
                         ))}
