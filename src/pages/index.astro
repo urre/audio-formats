@@ -4,6 +4,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import AudioTable from "../components/AudioTable";
+import '../styles/global.css';
 
 const data = await getCollection('formats', ({ data }: { data: { draft?: boolean, pubDate: Date } }) => {
     return import.meta.env.PROD ? data.draft !== true : true

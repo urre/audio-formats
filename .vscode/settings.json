@@ -12,12 +12,17 @@
     "*.jpg": true,
     "*.svg": true
   },
+  "[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
   "[astro]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
   },
-  "[javascript]": {
+  "[typescriptreact]": {
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true
   },

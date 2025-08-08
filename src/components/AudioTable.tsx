@@ -27,8 +27,7 @@ type SortField =
   | "sampleFrequency"
   | "bitDepth"
   | "bitRate"
-  | "compression"
-  | "audiophileLevel";
+  | "compression";
 type SortOrder = "asc" | "desc";
 
 const SortButton: React.FC<{
@@ -38,10 +37,7 @@ const SortButton: React.FC<{
   sortOrder: SortOrder;
   onSort: (field: SortField) => void;
 }> = ({ field, children, sortField, sortOrder, onSort }) => (
-  <button
-    onClick={() => onSort(field)}
-    className="flex items-center gap-1 hover:bg-gray-100 px-2 py-1 rounded transition-colors"
-  >
+  <button onClick={() => onSort(field)}>
     {children}
     {sortField === field && (sortOrder === "asc" ? <> ↑</> : <>↓</>)}
   </button>
@@ -91,11 +87,6 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
           aValue = a.data.compression.toLowerCase();
           bValue = b.data.compression.toLowerCase();
           break;
-        case "audiophileLevel":
-          // Count emoji characters for sorting
-          aValue = (a.data.audiophileLevel.match(/🎵/g) || []).length;
-          bValue = (b.data.audiophileLevel.match(/🎵/g) || []).length;
-          break;
         default:
           aValue = "";
           bValue = "";
@@ -114,195 +105,139 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
   }, [posts, sortField, sortOrder]);
 
   const getCompressionStyle = (compression: string) => {
-    switch (compression) {
-      case "Lossless":
-        return "bg-green-100 text-blue-800";
-      case "Lossy":
-        return "bg-orange-100 text-orange-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
+    // Styles removed
+    return "";
   };
 
   return (
-    <div className="w-full p-16 bg-gray-50 min-h-screen transition-colors duration-300">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1400px]">
-            <thead className="bg-gray-50 sticky top-0 z-10">
-              <tr>
-                <th className="px-4 py-4 text-left w-36 min-w-[4rem] whitespace-nowrap">
-                  Logo
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton
-                    field="title"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Name
-                  </SortButton>
-                </th>
-                <th className="px-4 py-4 text-left w-64 min-w-[16rem] whitespace-nowrap">
-                  Description
-                </th>
-                <th className="px-4 py-4 text-center whitespace-nowrap">
-                  High-res
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton
-                    field="sampleFrequency"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Sample frequency
-                  </SortButton>
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton
-                    field="bitDepth"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Bit depth
-                  </SortButton>
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton
-                    field="bitRate"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Bit rate
-                  </SortButton>
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  <SortButton
-                    field="compression"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Compression
-                  </SortButton>
-                </th>
-                <th className="px-4 py-4 text-center whitespace-nowrap">
-                  Streaming
-                </th>
-                <th className="px-4 py-4 text-left whitespace-nowrap">
-                  File formats
-                </th>
-                <th className="px-4 py-4 text-center whitespace-nowrap">
-                  <SortButton
-                    field="audiophileLevel"
-                    sortField={sortField}
-                    sortOrder={sortOrder}
-                    onSort={handleSort}
-                  >
-                    Audiophile level
-                  </SortButton>
-                </th>
-              </tr>
-            </thead>
+    <div className="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th aria-label="Logo">Logo</th>
+            <th>
+              <SortButton
+                field="title"
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSort={handleSort}
+              >
+                Name
+              </SortButton>
+            </th>
+            <th>Description</th>
+            <th>High-res</th>
+            <th>
+              <SortButton
+                field="sampleFrequency"
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSort={handleSort}
+              >
+                Sample frequency
+              </SortButton>
+            </th>
+            <th>
+              <SortButton
+                field="bitDepth"
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSort={handleSort}
+              >
+                Bit depth
+              </SortButton>
+            </th>
+            <th>
+              <SortButton
+                field="bitRate"
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSort={handleSort}
+              >
+                Bit rate
+              </SortButton>
+            </th>
+            <th>
+              <SortButton
+                field="compression"
+                sortField={sortField}
+                sortOrder={sortOrder}
+                onSort={handleSort}
+              >
+                Compression
+              </SortButton>
+            </th>
+            <th scope="col" aria-label="Streaming services">
+              Streaming
+            </th>
+          </tr>
+        </thead>
 
-            <tbody className="divide-y divide-gray-200">
-              {sortedPosts.map((post, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-4">
-                    <img
-                      src={post.data.logo || "/placeholder.svg"}
-                      alt={`${post.data.title} logo`}
-                      title={`${post.data.title} logo`}
-                      className="rounded object-contain invert h-24"
-                      loading="lazy"
-                    />
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="font-medium text-gray-900">
-                      {post.data.title}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 w-24">
-                    <div className="text-gray-600">{post.data.description}</div>
-                  </td>
-                  <td className="px-4 py-4 w-12 text-center">
-                    {post.data.highres && (
-                      <img
-                        className="object-contain h-12 w-12"
-                        src="/icons/technologies/highres.svg"
-                        alt="High-Res Audio"
-                        title="High-Res Audio"
-                        loading="lazy"
-                      />
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-gray-900 text-sm">
-                      {post.data.sampleFrequency}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-gray-900 text-sm">
-                      {post.data.bitDepth}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="text-gray-900 text-sm">
-                      {post.data.bitRate}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span
-                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getCompressionStyle(
-                        post.data.compression
-                      )}`}
-                    >
-                      {post.data.compression}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    {post.data.streaming && post.data.streaming.length > 0 ? (
-                      <div className="flex gap-2 flex-wrap justify-center">
-                        {post.data.streaming.map((stream, streamIndex) => (
+        <tbody>
+          {sortedPosts.map((post, index) => (
+            <tr key={index}>
+              <td aria-label="Logo">
+                <img
+                  src={post.data.logo || "/placeholder.svg"}
+                  alt={`${post.data.title} logo`}
+                  title={`${post.data.title} logo`}
+                  loading="lazy"
+                />
+              </td>
+              <td>{post.data.title}</td>
+              <td>{post.data.description}</td>
+              <td aria-label="High-res">
+                {post.data.highres && (
+                  <img
+                    src="/icons/technologies/highres.svg"
+                    alt="High-Res Audio"
+                    title="High-Res Audio"
+                    loading="lazy"
+                  />
+                )}
+              </td>
+              <td>{post.data.sampleFrequency}</td>
+              <td>{post.data.bitDepth}</td>
+              <td>{post.data.bitRate}</td>
+              <td>
+                <span>
+                  <span
+                    className={`pill ${
+                      post.data.compression.toLowerCase() === "lossy"
+                        ? "pill-danger"
+                        : ""
+                    }`}
+                  >
+                    {post.data.compression}
+                  </span>
+                </span>
+              </td>
+              <td aria-label="Streaming services">
+                {post.data.streaming && post.data.streaming.length > 0 ? (
+                  <div>
+                    {post.data.streaming.map((stream, streamIndex) => (
+                      <div>
+                        {stream && (
                           <img
                             key={streamIndex}
-                            className="object-contain h-8 w-8 invert"
                             src={`/icons/services/${stream.toLowerCase()}.svg`}
                             alt={`${stream} icon`}
                             title={`Streaming on ${stream}`}
                             loading="lazy"
                           />
-                        ))}
+                        )}
+                        <span>{stream}</span>
                       </div>
-                    ) : (
-                      <span className="text-gray-500 text-xs">None</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-4">
-                    <div className="flex flex-wrap gap-1">
-                      {post.data.fileFormats.map((ext, extIndex) => (
-                        <span
-                          key={extIndex}
-                          className="inline-flex items-center px-2 py-1 rounded bg-gray-100 text-gray-700 text-xs font-mono"
-                        >
-                          {ext.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-center">
-                    <div className="text-2xl">{post.data.audiophileLevel}</div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span>None</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

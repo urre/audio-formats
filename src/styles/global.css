@@ -1,0 +1,166 @@
+@import "https://unpkg.com/open-props";
+
+/* CSS Reset & Baseline */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* color-scheme: light dark; */
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-1);
+  line-height: var(--font-lineheight-3);
+  color: var(--text-1);
+  padding-block: clamp(var(--size-5), 3vw, var(--size-9));
+  padding-inline: clamp(var(--size-5), 3vw, var(--size-9));
+
+  background-color: var(--gray-0);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: var(--size-8);
+  margin-bottom: var(--size-3);
+  line-height: var(--font-lineheight-1);
+  color: var(--text-1);
+}
+
+h1 {
+  font-size: var(--font-size-6);
+}
+
+h2 {
+  font-size: var(--font-size-5);
+}
+
+h3 {
+  font-size: var(--font-size-4);
+}
+
+p {
+  margin-block: var(--size-3);
+}
+
+/* Table styles */
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: var(--size-4);
+  border-radius: var(--radius-3);
+  background-color: white;
+  border: 1px solid var(--gray-3);
+}
+
+@media screen and (max-width: 768px) {
+  .table-wrapper table {
+    width: max-content;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: var(--gray-0);
+}
+
+thead button {
+  background-color: transparent;
+  border: none;
+  color: var(--text-1);
+  cursor: pointer;
+  font-weight: var(--font-weight-6);
+  white-space: nowrap;
+}
+
+.pill {
+  display: inline-block;
+  padding: var(--size-1) var(--size-2);
+  border-radius: var(--radius-3);
+  background-color: var(--green-1);
+  color: var(--text-0);
+  font-size: var(--font-size-0);
+}
+
+.pill-danger {
+  background-color: var(--red-1);
+}
+
+th {
+  text-align: left;
+  font-weight: var(--font-weight-7);
+  color: var(--text-1);
+  white-space: nowrap;
+}
+
+[aria-label="Logo"] img {
+  max-width: clamp(var(--size-9), 12vw, var(--size-11));
+  height: auto;
+  filter: invert(1);
+}
+
+[aria-label="High-res"] img {
+  max-width: var(--size-7);
+  height: auto;
+  filter: invert(1);
+}
+
+[aria-label="Streaming services"] {
+  width: var(--size-fluid-8);
+
+  div {
+    display: flex;
+    gap: var(--size-2);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  img {
+    max-width: var(--size-6);
+    height: auto;
+    filter: invert(1);
+  }
+}
+
+th,
+td {
+  padding: var(--size-4) var(--size-3);
+}
+
+tbody tr {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+}
+
+tr:hover {
+  background-color: var(--gray-0);
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+img[alt="High-Res Audio"] {
+  filter: unset;
+}
