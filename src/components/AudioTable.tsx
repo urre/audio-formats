@@ -231,7 +231,7 @@ const AudioTable: React.FC<AudioTableProps> = ({ posts = [] }) => {
                     ))}
                   </div>
                 ) : (
-                  <span>None</span>
+                  <span></span>
                 )}
               </td>
             </tr>

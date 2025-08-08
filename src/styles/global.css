@@ -56,7 +56,12 @@ p {
   margin-block: var(--size-3);
 }
 
-/* Table styles */
+a {
+  color: var(--gray-10);
+  text-decoration: underline;
+
+  text-underline-offset: var(--size-1);
+}
 
 .table-wrapper {
   overflow-x: auto;
@@ -117,7 +122,7 @@ th {
 }
 
 [aria-label="High-res"] img {
-  max-width: var(--size-7);
+  max-width: clamp(var(--size-6), 12vw, var(--size-8));
   height: auto;
   filter: invert(1);
 }
